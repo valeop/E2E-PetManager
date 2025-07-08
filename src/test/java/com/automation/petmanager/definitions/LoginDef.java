@@ -5,12 +5,10 @@ import com.automation.petmanager.steps.validation.ValidationStep;
 import com.automation.petmanager.utilities.website.WebSite;
 import io.cucumber.java.en.*;
 import net.serenitybdd.annotations.Steps;
-import net.serenitybdd.screenplay.Actor;
 import org.junit.Assert;
 
 public class LoginDef {
 
-    private final Actor actor = Actor.named("Usuario1");
     @Steps(shared = true)
     WebSite url;
 
