@@ -8,6 +8,7 @@ Run locally the projects below:
 
 [**Backend**](https://github.com/MaritzaTC/P5F5-Pet-Store-Web.git) **Stack ->** IntelliJ, Maven, Java, Docker, PostgreSQL
 
+## Plugins
 You must install the next plugins for this project:
 - Gherkin
 - Cucumber for Java
