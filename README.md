@@ -6,7 +6,7 @@ Run locally the projects below:
 
 [**Frontend**](https://github.com/MaritzaTC/P5F5-Pet-Store-Web.git) **Stack ->** VSCode, TypeScripts, Next.js, Tailwind
 
-[**Backend**](https://github.com/MaritzaTC/P5F5-Pet-Store-Web.git) **Stack ->** IntelliJ, Maven, Java, Docker, PostgreSQL
+[**Backend**](https://github.com/Esteban-correa/PetManager/tree/main-schema-fixed) **Stack ->** IntelliJ, Maven, Java, Docker, PostgreSQL
 
 ## Plugins
 You must install the next plugins for this project:
