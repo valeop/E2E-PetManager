@@ -1,4 +1,6 @@
 # E2E-PetManager
+The `origin/main` uses PageObject as a model (POM) to run E2E automated tests. Screenplay pattern can be found in `screenplay-e2e-tests` branch.
+
 To execute correctly E2E tests, make sure you do the following:
 
 ## 🔗 Links 
