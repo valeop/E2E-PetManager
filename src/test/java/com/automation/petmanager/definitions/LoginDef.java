@@ -1,67 +1,60 @@
 package com.automation.petmanager.definitions;
 
-import com.automation.petmanager.steps.login.LoginStep;
-import com.automation.petmanager.steps.validation.ValidationStep;
-import com.automation.petmanager.utilities.website.WebSite;
+import com.automation.petmanager.questions.login.ErrorMessageResult;
+import com.automation.petmanager.questions.login.LoginResult;
+import com.automation.petmanager.tasks.login.InputFieldLoginTask;
+import com.automation.petmanager.tasks.login.NavigateToLoginTask;
+import com.automation.petmanager.tasks.login.UserModuleViewTask;
 import io.cucumber.java.en.*;
-import net.serenitybdd.annotations.Steps;
-import org.junit.Assert;
+import net.serenitybdd.annotations.Managed;
+import net.serenitybdd.screenplay.Actor;
+import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
+import org.openqa.selenium.WebDriver;
+
+import static net.serenitybdd.screenplay.GivenWhenThen.*;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 public class LoginDef {
 
-    @Steps(shared = true)
-    WebSite url;
+    @Managed(uniqueSession = true)
+    public WebDriver driver;
 
-    @Steps(shared = true)
-    LoginStep login;
-
-    @Steps(shared = true)
-    ValidationStep validation;
+    private final Actor usuario = Actor.named("Usuario");
 
     @Given("navego al módulo de inicio de sesión")
     public void userNavigateTo () {
-        url.navigateTo("http://localhost:3000/login");
+        usuario.can(BrowseTheWeb.with(driver));
+        usuario.attemptsTo(NavigateToLoginTask.page());
     }
 
     @When("ingreso credenciales correctas")
     public void inputValidCredentials () {
-        login.inputUsername("Usuario1");
-        login.inputPassword("Contrasena1*");
-        login.clickLogin();
-        login.clickMenu();
+        usuario.attemptsTo(InputFieldLoginTask.withCredentials("Usuario1","Contrasena1*"),
+                UserModuleViewTask.now());
     }
 
     @Then("logro entrar al módulo correspondiente a mi rol")
     public void viewMenu () {
-        Assert.assertTrue(validation.titleAdminVisible());
+      usuario.should(seeThat(LoginResult.wasSuccesful()));
     }
 
-
-    @When("ingreso el nombre de usuario")
-    public void inputValidUser () {
-        login.inputUsername("Usuario2");
-    }
-
-    @And("ingreso la contrasena incorrecta")
+    @When("ingreso una de las credenciales incorrectas")
     public void inputInvalidPassword () {
-        login.inputPassword("ContrasenaFake1*");
-        login.clickLogin();
+        usuario.attemptsTo(InputFieldLoginTask.withCredentials("Usuario1", "ContrasenaFake1*"));
     }
 
     @Then("observo un mensaje de error de autenticación")
     public void viewLoginError () {
-        Assert.assertTrue(validation.errorMessageVisible());
+        usuario.should(seeThat(ErrorMessageResult.forInvalidCredentials(), equalTo(true)));
     }
 
     @When("dejo los campos vacios")
     public void inputEmptyCredentials () {
-        login.inputUsername(null);
-        login.inputPassword(null);
-        login.clickLogin();
+        usuario.attemptsTo(InputFieldLoginTask.withEmptyCredentials());
     }
 
     @Then("observo un mensaje de error de campos obligatorios")
     public void viewFieldValidation () {
-        Assert.assertTrue(validation.fieldValidationMessageVisible());
+        usuario.should(seeThat(ErrorMessageResult.forEmptyCredentials(), equalTo(true)));
     }
 }

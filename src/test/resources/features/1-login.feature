@@ -14,8 +14,7 @@ Feature: EP18-HU02 - Autenticación de usuarios con diversas credenciales
 
     @InvalidCredentialsLogin
     Scenario: EP18-HU02-02 Autenticación fallida por credenciales incorrectas
-      When ingreso el nombre de usuario
-      And ingreso la contrasena incorrecta
+      When ingreso una de las credenciales incorrectas
       Then observo un mensaje de error de autenticación
 
     @EmptyFieldsLogin
