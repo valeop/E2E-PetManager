@@ -1,4 +1,4 @@
-package com.automation.petmanager.definitions;
+package com.automation.petmanager.definitions.login;
 
 import com.automation.petmanager.questions.login.ErrorMessageResult;
 import com.automation.petmanager.questions.login.LoginResult;
@@ -19,42 +19,42 @@ public class LoginDef {
     @Managed(uniqueSession = true)
     public WebDriver driver;
 
-    private final Actor usuario = Actor.named("Usuario");
+    private final Actor actor = Actor.named("Usuario");
 
     @Given("navego al módulo de inicio de sesión")
-    public void userNavigateTo () {
-        usuario.can(BrowseTheWeb.with(driver));
-        usuario.attemptsTo(NavigateToLoginTask.page());
+    public void userNavigateToLogin () {
+        actor.can(BrowseTheWeb.with(driver));
+        actor.attemptsTo(NavigateToLoginTask.page());
     }
 
     @When("ingreso credenciales correctas")
     public void inputValidCredentials () {
-        usuario.attemptsTo(InputFieldLoginTask.withCredentials("Usuario1","Contrasena1*"),
+        actor.attemptsTo(InputFieldLoginTask.withCredentials("Usuario1","Contrasena1*"),
                 UserModuleViewTask.now());
     }
 
     @Then("logro entrar al módulo correspondiente a mi rol")
     public void viewMenu () {
-      usuario.should(seeThat(LoginResult.wasSuccesful()));
+      actor.should(seeThat(LoginResult.wasSuccesful()));
     }
 
     @When("ingreso una de las credenciales incorrectas")
     public void inputInvalidPassword () {
-        usuario.attemptsTo(InputFieldLoginTask.withCredentials("Usuario1", "ContrasenaFake1*"));
+        actor.attemptsTo(InputFieldLoginTask.withCredentials("Usuario1", "ContrasenaFake1*"));
     }
 
     @Then("observo un mensaje de error de autenticación")
     public void viewLoginError () {
-        usuario.should(seeThat(ErrorMessageResult.forInvalidCredentials(), equalTo(true)));
+        actor.should(seeThat(ErrorMessageResult.forInvalidCredentials(), equalTo(true)));
     }
 
     @When("dejo los campos vacios")
     public void inputEmptyCredentials () {
-        usuario.attemptsTo(InputFieldLoginTask.withEmptyCredentials());
+        actor.attemptsTo(InputFieldLoginTask.withEmptyCredentials());
     }
 
     @Then("observo un mensaje de error de campos obligatorios")
     public void viewFieldValidation () {
-        usuario.should(seeThat(ErrorMessageResult.forEmptyCredentials(), equalTo(true)));
+        actor.should(seeThat(ErrorMessageResult.forEmptyCredentials(), equalTo(true)));
     }
 }

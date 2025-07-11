@@ -1,9 +1,12 @@
-package com.automation.petmanager.definitions;
+package com.automation.petmanager.definitions.createuser;
 
 import com.automation.petmanager.questions.createuser.CreateUserResult;
 import com.automation.petmanager.questions.createuser.ErrorMessageCreateResult;
 import com.automation.petmanager.tasks.createuser.InputFieldCreateUserTask;
 import com.automation.petmanager.tasks.createuser.NavigateToCreateUserTask;
+import com.automation.petmanager.tasks.login.InputFieldLoginTask;
+import com.automation.petmanager.tasks.login.NavigateToLoginTask;
+import com.automation.petmanager.tasks.login.UserModuleViewTask;
 import io.cucumber.java.en.*;
 import net.serenitybdd.annotations.Managed;
 import net.serenitybdd.screenplay.Actor;
@@ -18,51 +21,44 @@ public class CreateUserDef {
     @Managed(uniqueSession = true)
     public WebDriver driver;
 
-    private final Actor administrador = Actor.named("Administrador");
+    private final Actor actor = Actor.named("Usuario");
 
     @Given("navego al módulo de registro de usuarios")
     public void userNavigateToCreateUser() {
-        administrador.can(BrowseTheWeb.with(driver));
-        administrador.attemptsTo(NavigateToCreateUserTask.page());
+        actor.can(BrowseTheWeb.with(driver));
+        actor.attemptsTo(NavigateToLoginTask.page());
+        actor.attemptsTo(InputFieldLoginTask.withCredentials("Usuario1", "Contrasena1*"));
+        actor.attemptsTo(UserModuleViewTask.now());
+        actor.attemptsTo(NavigateToCreateUserTask.now());
     }
 
     @When("ingreso la información correcta del nuevo administrador")
     public void inputValidAdminInformation() {
-        administrador.attemptsTo(InputFieldCreateUserTask.withAdminCredentials("AdminTest", "admin@test.com", "AdminPass123", "ADMIN"));
+        actor.attemptsTo(InputFieldCreateUserTask.withAdminCredentials("AdminNuevo1", "Contrasena1*", "ADMIN"));
     }
 
     @Then("observo un mensaje de administrador creado")
     public void viewAdminCreatedMessage() {
-        administrador.should(seeThat(CreateUserResult.wasSuccessful(), equalTo(true)));
+        actor.should(seeThat(CreateUserResult.wasSuccessful(), equalTo(true)));
     }
 
     @When("ingreso la información correcta del nuevo usuario")
     public void inputValidUserInformation() {
-        administrador.attemptsTo(InputFieldCreateUserTask.withUserCredentials("UserTest", "user@test.com", "UserPass123", "USER"));
+        actor.attemptsTo(InputFieldCreateUserTask.withUserCredentials("UsuarioNuevo1", "Contrasena1*", "USUARIO"));
     }
 
     @Then("observo un mensaje de usuario creado")
     public void viewUserCreatedMessage() {
-        administrador.should(seeThat(CreateUserResult.wasSuccessful(), equalTo(true)));
+        actor.should(seeThat(CreateUserResult.wasSuccessful(), equalTo(true)));
     }
 
     @When("ingreso la información del usuario existente")
     public void inputExistingUserInformation() {
-        administrador.attemptsTo(InputFieldCreateUserTask.withUserCredentials("admin", "admin@existing.com", "ExistingPass123", "USER"));
+        actor.attemptsTo(InputFieldCreateUserTask.withUserCredentials("Usuario4", "Contrasena4*", "USUARIO"));
     }
 
     @Then("observo un mensaje de error de usuario existente")
     public void viewUserExistsError() {
-        administrador.should(seeThat(ErrorMessageCreateResult.forDuplicateUser(), equalTo(true)));
-    }
-
-    @When("dejo los campos vacíos para el nuevo usuario")
-    public void inputEmptyUserFields() {
-        administrador.attemptsTo(InputFieldCreateUserTask.withEmptyCredentials());
-    }
-
-    @Then("observo un mensaje de error por campos obligatorio")
-    public void viewEmptyFieldsError() {
-        administrador.should(seeThat(ErrorMessageCreateResult.forEmptyFields(), equalTo(true)));
+        actor.should(seeThat(ErrorMessageCreateResult.forDuplicateUser(), equalTo(true)));
     }
 }

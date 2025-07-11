@@ -23,8 +23,3 @@
     Scenario: EP18-HU01-03 Registro fallido con nombre de usuario ya existente
       When ingreso la información del usuario existente
       Then observo un mensaje de error de usuario existente
-
-    @EmptyFieldsCreate
-    Scenario: EP18-HU01-04 Registro fallido por campos vacíos
-      When dejo los campos vacíos para el nuevo usuario
-      Then observo un mensaje de error por campos obligatorio

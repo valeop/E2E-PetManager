@@ -13,7 +13,6 @@ public class LoginResult implements Question<Boolean> {
 
     @Override
     public Boolean answeredBy(Actor actor) {
-        return Visibility.of(ValidationUserInterface.ADMIN_TITLE).answeredBy(actor) ||
-               Visibility.of(ValidationUserInterface.DASHBOARD_CONTENT).answeredBy(actor);
+        return Visibility.of(ValidationUserInterface.ADMIN_TITLE).answeredBy(actor);
     }
 }
