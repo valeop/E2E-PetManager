@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = "com.automation.petmanager.definitions",
-        tags = "@Login"
+        tags = "@Login or @Create"
 )
 public class Runner {
 }

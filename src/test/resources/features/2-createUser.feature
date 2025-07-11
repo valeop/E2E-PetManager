@@ -27,4 +27,4 @@
     @EmptyFieldsCreate
     Scenario: EP18-HU01-04 Registro fallido por campos vacíos
       When dejo los campos vacíos para el nuevo usuario
-      Then obervo un mensaje de error por campos obligatorio
+      Then observo un mensaje de error por campos obligatorio
