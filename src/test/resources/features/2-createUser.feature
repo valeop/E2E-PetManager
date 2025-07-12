@@ -1,6 +1,5 @@
 @Suite @Create
-
-  Feature: EP18-HU01 - Registro de usuarios con distintos niveles de permisos
+Feature: EP18-HU01 - Registro de usuarios con distintos niveles de permisos
 
     Como administrador del sistema
     quiero poder registrar usuarios con distintos niveles de permisos
